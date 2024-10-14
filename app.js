@@ -101,13 +101,14 @@ function showSavedLocation() {
 }
 
 // Define a blue icon for the saved location marker
-const blueIcon = new L.Icon({
+const blueIcon = L.Icon({
     iconUrl: 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=S|0000FF|FFFFFF',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
     iconSize: [21, 34],
     iconAnchor: [10, 34],
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
+    shadowAnchor: [4, 62]
 });
 
 // Event listeners for buttons
