@@ -93,7 +93,7 @@ function showSavedLocation() {
             .bindPopup("Saved Location")
             .openPopup();
 
-        savedMarker._icon.classList.add('heuchange');
+        savedMarker._icon.classList.add('huechange');
 
         // Center the map to the saved location
         map.setView(pos, 13);
