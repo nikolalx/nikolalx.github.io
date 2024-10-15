@@ -44,3 +44,5 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+img.huechange { filter: hue-rotate(120deg); }

@@ -88,10 +88,12 @@ function showSavedLocation() {
         }
 
         // Add a marker for the saved location
-        savedMarker = L.marker(pos, { icon: blueIcon })
+        savedMarker = new L.marker(pos)
             .addTo(map)
             .bindPopup("Saved Location")
             .openPopup();
+
+        savedMarker._icon.classList.add('heuchange');
 
         // Center the map to the saved location
         map.setView(pos, 13);
@@ -99,17 +101,6 @@ function showSavedLocation() {
         alert("No location has been saved yet.");
     }
 }
-
-// Define a blue icon for the saved location marker
-const blueIcon = L.Icon({
-    iconUrl: 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=S|0000FF|FFFFFF',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    iconSize: [21, 34],
-    iconAnchor: [10, 34],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [4, 62]
-});
 
 // Event listeners for buttons
 document.getElementById("saveLocation").addEventListener("click", saveCurrentLocation);
