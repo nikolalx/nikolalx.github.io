@@ -83,7 +83,7 @@ function updateLocation(position) {
 
   if (!mapCenteredInitially) {
     // Center the map only the first time
-    map.setView(newUserPosition, 13);
+    map.setView(newUserPosition, 18);
     mapCenteredInitially = true;
   }
 
@@ -163,7 +163,7 @@ function showSavedLocation() {
       savedMarker.closePopup();
     }, 1400);
     // Center the map to the saved location
-    map.setView(pos, 13);
+    map.setView(pos, 18);
   } else {
     alert("No location has been saved yet.");
   }
