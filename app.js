@@ -60,26 +60,30 @@ function handleLocationError(browserHasGeolocation) {
 
 // Update the current location and marker without resetting the map view
 function updateLocation(position) {
-    userPosition = [position.coords.latitude, position.coords.longitude];
+    const newUserPosition = [position.coords.latitude, position.coords.longitude];
 
     if (!mapCenteredInitially) {
-        // Center the map initially at the user's location
-        map.setView(userPosition, 13);
+        // Center the map only the first time
+        map.setView(newUserPosition, 13);
         mapCenteredInitially = true;
     }
 
-    // Update or create the marker at the new location
-    if (!currentMarker) {
-        // First time: create the marker
-        currentMarker = L.marker(userPosition, {
-            icon: createCustomIcon() // Use the custom icon with blue circle + trapezoid
-        })
-            .addTo(map)
-            .bindPopup("Your Current Location")
-            .openPopup();
+    // Check if marker exists, and update or create as needed
+    if (currentMarker) {
+        // Update the marker position without affecting the view
+        currentMarker.setLatLng(newUserPosition);
     } else {
-        // Just update the marker position without affecting the view
-        currentMarker.setLatLng(userPosition);
+        // Create the marker if it doesn't exist yet
+        currentMarker = L.marker(newUserPosition, {
+            icon: createCustomIcon()  // Custom icon for the marker
+        })
+        .addTo(map)
+        .bindPopup("Current Location")
+        .openPopup()
+        
+        setTimeout(() => {
+            currentMarker.closePopup();
+        }, 1400);
     }
 }
 
@@ -136,7 +140,10 @@ function showSavedLocation() {
             .openPopup();
 
         savedMarker._icon.classList.add('huechange');
-
+        
+        setTimeout(() => {
+            savedMarker.closePopup();
+        }, 1400);
         // Center the map to the saved location
         map.setView(pos, 13);
     } else {
