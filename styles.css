@@ -8,14 +8,16 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     text-align: center;
     padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 /* Map Container */
 #map {
-    height: 80vh;
+    height: 70vh;
     width: 100%;
     margin-bottom: 20px;
     border: 2px solid #ccc;
@@ -24,14 +26,15 @@ body {
 
 /* Controls Container */
 #controls {
-    margin-top: 10px;
+    margin: 10px 0;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 button {
-    padding: 10px 20px;
-    margin: 0 10px;
+    padding: 10px 15px;
+    margin: 5px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
@@ -43,6 +46,18 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    button {
+        width: 80%;
+        font-size: 18px;
+    }
+
+    #map {
+        height: 60vh;
+    }
 }
 
 img.huechange { filter: hue-rotate(120deg); }

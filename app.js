@@ -5,6 +5,7 @@ let map;
 let currentMarker = null;
 let savedMarker = null;
 let savedCoordinates = null;
+let watchId = null;
 
 // Initialize and add the map
 function initMap() {
@@ -20,22 +21,33 @@ function initMap() {
         maxZoom: 26,
     }).addTo(map);
 
-    // Try to get the user's current location
+    // Try to get the user's current location and watch for updates
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+        };
+        
+        watchId = navigator.geolocation.watchPosition(
             (position) => {
                 const pos = [position.coords.latitude, position.coords.longitude];
                 map.setView(pos, 13);
 
-                // Add a marker at the user's location
-                currentMarker = L.marker(pos)
-                    .addTo(map)
-                    .bindPopup("Your Current Location")
-                    .openPopup();
+                // If a marker already exists, update its position, else create one
+                if (currentMarker) {
+                    currentMarker.setLatLng(pos);
+                } else {
+                    currentMarker = L.marker(pos)
+                        .addTo(map)
+                        .bindPopup("Your Current Location")
+                        .openPopup();
+                }
             },
             () => {
                 handleLocationError(true);
-            }
+            },
+            options
         );
     } else {
         // Browser doesn't support Geolocation
