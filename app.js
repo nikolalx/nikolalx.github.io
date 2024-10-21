@@ -56,7 +56,7 @@ function initMap() {
 // Handle device orientation changes
 function handleOrientation(event) {
   // Get the alpha (compass direction)
-  deviceOrientation = event.alpha || 0;
+  deviceOrientation = 360 - (event.alpha) || 0;
 
   // Rotate the arrow icon if currentMarker exists
   if (currentMarker) {
