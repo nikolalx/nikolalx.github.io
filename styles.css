@@ -11,13 +11,13 @@ body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    background: linear-gradient(0deg, rgba(2,0,36,1) 6%, rgba(86,9,121,1) 24%, rgba(86,9,121,1) 70%, rgba(2,0,36,1) 93%);
+    color: #fffbfb;
 }
 
 /* Map Container */
 #map {
-    height: 70vh;
+    height: 85vh;
     width: 100%;
     margin-bottom: 20px;
     border: 2px solid #ccc;
@@ -39,7 +39,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #007BFF;
+    background-color: #f72585;
     color: white;
     transition: background-color 0.3s ease;
 }
