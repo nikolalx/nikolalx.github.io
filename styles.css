@@ -48,6 +48,45 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Custom Arrow Marker */
+.custom-arrow-icon {
+    position: relative;
+}
+
+/* Blue Circle with a Trapezoid */
+.custom-arrow-icon .arrow {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.custom-arrow-icon .arrow::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 18px;
+    height: 18px;
+    background-color: #007BFF;
+    border-radius: 50%;  /* Blue circle */
+}
+
+.custom-arrow-icon .arrow::after {
+    content: '';
+    display: block;
+    position: absolute;
+    --p: 10px;
+    top: -10px;
+    left: 2px;
+    width: 30px;
+    height: 30px;
+    z-index: 100;
+    clip-path: polygon(var(--p) 100%,calc(100% - var(--p)) 100%,100% 0,0 0); /* Trapezoid */
+    background-color: rgba(0, 123, 255, 0.5);  /* Blue transparent trapezoid */
+    transform-origin: center;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 600px) {
     button {
@@ -60,4 +99,7 @@ button:hover {
     }
 }
 
-img.huechange { filter: hue-rotate(120deg); }
+img.huechange { filter: hue-rotate(120deg); 
+    z-index: 99;
+}
+

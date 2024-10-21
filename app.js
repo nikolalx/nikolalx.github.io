@@ -1,11 +1,10 @@
-// app.js
-
 // Initialize variables
 let map;
 let currentMarker = null;
 let savedMarker = null;
 let savedCoordinates = null;
-let watchId = null;
+let userPosition = null;
+let mapCenteredInitially = false;  // New variable to track initial map centering
 
 // Initialize and add the map
 function initMap() {
@@ -21,29 +20,16 @@ function initMap() {
         maxZoom: 26,
     }).addTo(map);
 
-    // Try to get the user's current location and watch for updates
+    // Try to get the user's current location with high accuracy
     if (navigator.geolocation) {
         const options = {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0,
+            enableHighAccuracy: true,  // High accuracy
+            timeout: 5000,  // 5 seconds timeout
+            maximumAge: 0
         };
-        
-        watchId = navigator.geolocation.watchPosition(
-            (position) => {
-                const pos = [position.coords.latitude, position.coords.longitude];
-                map.setView(pos, 13);
 
-                // If a marker already exists, update its position, else create one
-                if (currentMarker) {
-                    currentMarker.setLatLng(pos);
-                } else {
-                    currentMarker = L.marker(pos)
-                        .addTo(map)
-                        .bindPopup("Your Current Location")
-                        .openPopup();
-                }
-            },
+        navigator.geolocation.watchPosition(
+            updateLocation,
             () => {
                 handleLocationError(true);
             },
@@ -71,6 +57,50 @@ function handleLocationError(browserHasGeolocation) {
     );
     // The map remains centered at the default location
 }
+
+// Update the current location and marker without resetting the map view
+function updateLocation(position) {
+    userPosition = [position.coords.latitude, position.coords.longitude];
+
+    if (!mapCenteredInitially) {
+        // Center the map initially at the user's location
+        map.setView(userPosition, 13);
+        mapCenteredInitially = true;
+    }
+
+    // Update or create the marker at the new location
+    if (!currentMarker) {
+        // First time: create the marker
+        currentMarker = L.marker(userPosition, {
+            icon: createCustomIcon() // Use the custom icon with blue circle + trapezoid
+        })
+            .addTo(map)
+            .bindPopup("Your Current Location")
+            .openPopup();
+    } else {
+        // Just update the marker position without affecting the view
+        currentMarker.setLatLng(userPosition);
+    }
+}
+
+// Create the custom icon for the current marker (blue circle + trapezoid)
+function createCustomIcon() {
+    const iconHtml = `
+        <div class="custom-arrow-icon">
+            <div class="arrow"></div>
+        </div>
+    `;
+
+    const arrowIcon = L.divIcon({
+        className: '', // No extra classes needed here, it's already in the HTML
+        html: iconHtml, // Set the inner HTML to create the blue circle and trapezoid
+        iconSize: [40, 40], // Size of the container
+        iconAnchor: [20, 20], // Anchors the marker in the center
+    });
+
+    return arrowIcon;
+}
+
 
 // Save the current coordinates
 function saveCurrentLocation() {
@@ -100,7 +130,7 @@ function showSavedLocation() {
         }
 
         // Add a marker for the saved location
-        savedMarker = new L.marker(pos)
+        savedMarker = L.marker(pos)
             .addTo(map)
             .bindPopup("Saved Location")
             .openPopup();
